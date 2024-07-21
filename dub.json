@@ -1,0 +1,9 @@
+{
+	"name": "cdt",
+	"description": "Generates constraint or conforming Delaunay triangulations.",
+	"authors": ["Aya Partridge"],
+	"license": "MPL-2.0",
+	
+	"targetType": "staticLibrary",
+	"targetPath": "lib",
+}
