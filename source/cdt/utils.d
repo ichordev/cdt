@@ -78,7 +78,8 @@ struct Triangle{
 			return Ret(neighbours[0], vertices[1]);
 		if(vertices[1] == i)
 			return Ret(neighbours[1], vertices[2]);
-		return Ret(neighbours[2], vertices[0]);
+		else
+			return Ret(neighbours[2], vertices[0]);
 	}
 	/**
 	Previous triangle adjacent to a vertex (counter-clockwise)
@@ -91,7 +92,8 @@ struct Triangle{
 			return Ret(neighbours[2], vertices[2]);
 		if(vertices[1] == i)
 			return Ret(neighbours[0], vertices[0]);
-		return Ret(neighbours[1], vertices[1]);
+		else
+			return Ret(neighbours[1], vertices[1]);
 	}
 	
 	bool containsVertex(VertInd i) const nothrow @nogc pure @safe =>
@@ -209,13 +211,13 @@ pragma(inline,true) nothrow @nogc pure @safe{
 	}
 	
 	///Index of triangle's neighbour opposed to an edge
-	Index edgeNeighbourInd(ref const VertInd[3] vv, VertInd iVedge1, VertInd iVedge2)
-	in(vv[0] == iVedge1 || vv[1] == iVedge1 || vv[2] == iVedge1)
-	in(vv[0] == iVedge2 || vv[1] == iVedge2 || vv[2] == iVedge2)
+	Index edgeNeighbourInd(ref const VertInd[3] vv, VertInd iVEdge1, VertInd iVEdge2)
+	in(vv[0] == iVEdge1 || vv[1] == iVEdge1 || vv[2] == iVEdge1)
+	in(vv[0] == iVEdge2 || vv[1] == iVEdge2 || vv[2] == iVEdge2)
 	in(
-		(vv[0] != iVedge1 && vv[0] != iVedge2) ||
-		(vv[1] != iVedge1 && vv[1] != iVedge2) ||
-		(vv[2] != iVedge1 && vv[2] != iVedge2)
+		(vv[0] != iVEdge1 && vv[0] != iVEdge2) ||
+		(vv[1] != iVEdge1 && vv[1] != iVEdge2) ||
+		(vv[2] != iVEdge1 && vv[2] != iVEdge2)
 	){
 		/*
 		*      vv[2]
@@ -224,13 +226,13 @@ pragma(inline,true) nothrow @nogc pure @safe{
 		*     /____\
 		* vv[0] n[0] vv[1]
 		*/
-		if(vv[0] == iVedge1){
-			if(vv[1] == iVedge2)
+		if(vv[0] == iVEdge1){
+			if(vv[1] == iVEdge2)
 				return 0;
 			return 2;
 		}
-		if(vv[0] == iVedge2){
-			if(vv[1] == iVedge1)
+		if(vv[0] == iVEdge2){
+			if(vv[1] == iVEdge1)
 				return 0;
 			return 2;
 		}

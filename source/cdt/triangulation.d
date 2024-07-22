@@ -1333,7 +1333,7 @@ struct Triangulation(T, V2=T[2], TNearPointLocator=LocatorKDTree!(T, V2)){
 				iterations ~= TriangulatePseudoPolygonTask(iC, iB, iNext, iT, 1);
 			}else{ //pseudo-poly is reduced to a single outer edge
 				const outerEdge = Edge(b, c);
-				const TriInd outerTri = outerTris.require(outerEdge);
+				const TriInd outerTri = outerTris.require(outerEdge, noNeighbour);
 				if(outerTri != noNeighbour){
 					assert(outerTri != iT);
 					t.neighbours[1] = outerTri;
@@ -1349,7 +1349,7 @@ struct Triangulation(T, V2=T[2], TNearPointLocator=LocatorKDTree!(T, V2)){
 			}else{
 				//pseudo-poly is reduced to a single outer edge
 				const outerEdge = Edge(c, a);
-				const TriInd outerTri = outerTris.require(outerEdge);
+				const TriInd outerTri = outerTris.require(outerEdge, noNeighbour);
 				if(outerTri != noNeighbour){
 					assert(outerTri != iT);
 					t.neighbours[2] = outerTri;
