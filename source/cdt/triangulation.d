@@ -1104,12 +1104,12 @@ struct Triangulation(T, V2=T[2], TNearPointLocator=LocatorKDTree!(T, V2)){
 		const V2 v = vertices[iV];
 		TriInd[2] output = [noNeighbour, noNeighbour];
 		const TriInd iT = walkTriangles(startVertex, v);
+		
 		//Finished walk, locate point in current triangle
 		const Triangle t = triangles[iT];
 		const V2 v1 = vertices[t.vertices[0]];
 		const V2 v2 = vertices[t.vertices[1]];
 		const V2 v3 = vertices[t.vertices[2]];
-		
 		const PtTriLocation loc = locatePointTriangle!(T, V2)(v, v1, v2, v3);
 		switch(loc){
 			case PtTriLocation.outside:
@@ -1304,7 +1304,7 @@ struct Triangulation(T, V2=T[2], TNearPointLocator=LocatorKDTree!(T, V2)){
 	void triangulatePseudoPolygon(
 		const VertInd[] poly, TriInd[Edge] outerTris, TriInd iT, TriInd iN,
 		ref TriangulatePseudoPolygonTask[] iterations,
-	) nothrow pure @safe
+	) pure @safe
 	in(poly.length > 2){
 		//`iterations` is a stack
 		//Note: uses iteration instead of recursion to avoid stack overflows
@@ -1333,7 +1333,7 @@ struct Triangulation(T, V2=T[2], TNearPointLocator=LocatorKDTree!(T, V2)){
 				iterations ~= TriangulatePseudoPolygonTask(iC, iB, iNext, iT, 1);
 			}else{ //pseudo-poly is reduced to a single outer edge
 				const outerEdge = Edge(b, c);
-				const TriInd outerTri = outerTris[outerEdge];
+				const TriInd outerTri = outerTris.require(outerEdge);
 				if(outerTri != noNeighbour){
 					assert(outerTri != iT);
 					t.neighbours[1] = outerTri;
@@ -1349,7 +1349,7 @@ struct Triangulation(T, V2=T[2], TNearPointLocator=LocatorKDTree!(T, V2)){
 			}else{
 				//pseudo-poly is reduced to a single outer edge
 				const outerEdge = Edge(c, a);
-				const TriInd outerTri = outerTris[outerEdge];
+				const TriInd outerTri = outerTris.require(outerEdge);
 				if(outerTri != noNeighbour){
 					assert(outerTri != iT);
 					t.neighbours[2] = outerTri;

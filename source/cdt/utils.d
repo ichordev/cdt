@@ -138,7 +138,7 @@ T orient2D(T, V2=T[2])(V2 p, V2 v1, V2 v2) nothrow @nogc pure @safe =>
 	orient2DAdaptive!T(v1[0], v1[1], v2[0], v2[1], p[0], p[1]);
 
 ///Check if point lies to the left of, to the right of, or on a line
-PtLineLocation locatePointLine(T, V2=T[2])(V2 p, V2 v1, V2 v2, T orientationTolerance=0) nothrow @nogc pure @safe =>
+PtLineLocation locatePointLine(T, V2=T[2])(V2 p, V2 v1, V2 v2, T orientationTolerance=T(0)) nothrow @nogc pure @safe =>
 	classifyOrientation!T(orient2D!(T, V2)(p, v1, v2), orientationTolerance);
 
 ///Classify value of orient2d predicate

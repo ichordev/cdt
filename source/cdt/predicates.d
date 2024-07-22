@@ -27,6 +27,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+
 module cdt.predicates;
 
 import std.algorithm, std.math, std.typecons;
@@ -189,9 +190,7 @@ T orient2DAdaptive(T)(T ax, T ay, T bx, T by, T cx, T cy) nothrow @nogc pure @sa
 	const T detLeft  = acx * bcy;
 	const T detRight = acy * bcx;
 	T det = detLeft - detRight;
-	if((detLeft < 0) != (detRight < 0))
-		return det;
-	if(T(0) == detLeft || T(0) == detRight)
+	if((detLeft < 0) != (detRight < 0) || T(0) == detLeft || T(0) == detRight)
 		return det;
 	
 	const T detSum = abs(detLeft + detRight);

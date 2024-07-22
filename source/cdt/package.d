@@ -32,13 +32,13 @@ struct DuplicatesInfo{
 
 DuplicatesInfo findDuplicates(V2)(scope const(V2)[] vertices) nothrow pure @safe{
 	size_t[V2] uniqueVerts;
-	auto di = DuplicatesInfo(new size_t[](vertices.length));
+	auto di = DuplicatesInfo(mapping: new size_t[](vertices.length));
 	size_t iOut = 0;
 	foreach(size_t iIn, vert; vertices){
 		if(auto ind = vert in uniqueVerts){
 			//found a duplicate
-			di.mapping[iIn] = *ind;
 			di.duplicates ~= iIn;
+			di.mapping[iIn] = *ind;
 		}else{
 			uniqueVerts[vert] = iOut;
 			di.mapping[iIn] = iOut++;
@@ -49,7 +49,7 @@ DuplicatesInfo findDuplicates(V2)(scope const(V2)[] vertices) nothrow pure @safe
 
 void removeDuplicates(V2)(scope ref V2[] vertices, scope const size_t[] duplicates) nothrow pure @safe
 in(duplicates.isStrictlyMonotonic){
-	foreach(duplicate; duplicates)
+	foreach_reverse(duplicate; duplicates)
 		vertices = vertices.remove!(SwapStrategy.unstable)(duplicate);
 }
 
@@ -59,7 +59,7 @@ void remapEdges(ref Edge[] edges, const size_t[] mapping) nothrow @nogc pure @sa
 }
 
 DuplicatesInfo removeDuplicatesAndRemapEdges(V2)(scope ref V2[] vertices, scope ref Edge[] edges) nothrow pure @safe{
-	DuplicatesInfo di = findDuplicates!V2(vertices);
+	DuplicatesInfo di = findDuplicates(vertices);
 	removeDuplicates(vertices, di.duplicates);
 	remapEdges(edges, di.mapping);
 	return di;
